@@ -1,0 +1,47 @@
+module priority_encoder_8 (
+    input  logic [7:0] A,
+    output logic [2:0] Y,
+    output logic V
+);
+
+    always_comb begin
+        V = (A != 8'b0);
+        casez (A)
+            8'b00000001 : Y = 3'b000;
+            8'b0000001X : Y = 3'b001;
+            8'b000001XX : Y = 3'b010;
+            8'b00001XXX : Y = 3'b011;
+            8'b0001XXXX : Y = 3'b100;
+            8'b001XXXXX : Y = 3'b101;
+            8'b01XXXXXX : Y = 3'b110;
+            8'b1XXXXXXX : Y = 3'b111;
+            default     : Y = 3'b000;
+        endcase
+    end
+
+endmodule
+
+TestBench:
+
+module tb_priority_encoder_8;
+    reg [7:0] A;
+    wire [2:0] Y;
+    wire V;
+
+    priority_encoder_8 uut (A, Y, V);
+
+    initial begin
+        A = 8'b00000000;
+        #10 A = 8'b00000001;
+        #10 A = 8'b00000010;
+        #10 A = 8'b00000100;
+        #10 A = 8'b00001000;
+        #10 A = 8'b00010000;
+        #10 A = 8'b00100000;
+        #10 A = 8'b01000000;
+        #10 A = 8'b10000000;
+        #10 A = 8'b00000101;
+        #10 A = 8'b10000001;
+        #10 $finish;
+    end
+endmodule
