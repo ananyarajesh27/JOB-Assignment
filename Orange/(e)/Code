@@ -1,0 +1,21 @@
+orange e
+module pe(a,y);
+input logic[3:0] a;
+output logic[1:0] y;
+assign y[1]= a[2]|a[3];
+assign y[0] = (~a[2]&a[1])|a[3];
+endmodule
+
+module petb;
+reg[3:0]a;
+wire[1:0]y;
+pe dut (a,y);
+initial
+begin
+a[3]=1'b0;a[2]=1'b0;a[1]=1'b0;a[0]=1'b0;
+#10 a[3]=1'b0;a[2]=1'b0;a[1]=1'b0;a[0]=1'b1;
+#10 a[3]=1'b0;a[2]=1'b0;a[1]=1'b1;a[0]=1'bx;
+#10 a[3]=1'b0;a[2]=1'b1;a[1]=1'bx;a[0]=1'bx;
+#10 a[3]=1'b1;a[2]=1'bx;a[1]=1'bx;a[0]=1'bx;
+end
+endmodule
